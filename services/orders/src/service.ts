@@ -147,6 +147,10 @@ export function createOrdersService(deps: ServiceDeps, config: OrdersConfig) {
       connection: 'keep-alive',
       'access-control-allow-origin': '*',
     })
+    // writeHead() alone only queues the headers. With an empty timeline nothing else would be
+    // written until the first keep-alive, and the browser would not report the stream as open.
+    reply.raw.flushHeaders()
+    reply.raw.write(': connected\n\n')
     const reader = redis.duplicate() // XREAD BLOCK occupies a connection, so each client gets its own
     let open = true
     request.raw.on('close', () => {
