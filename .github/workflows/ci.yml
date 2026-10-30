@@ -1,0 +1,52 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:17-alpine
+        env:
+          POSTGRES_USER: relay
+          POSTGRES_PASSWORD: relay
+          POSTGRES_DB: relay
+        ports: ['5445:5432']
+        options: --health-cmd "pg_isready -U relay" --health-interval 3s --health-timeout 3s --health-retries 20
+      rabbitmq:
+        image: rabbitmq:4-management-alpine
+        ports: ['5673:5672', '15673:15672']
+        options: --health-cmd "rabbitmq-diagnostics -q ping" --health-interval 5s --health-timeout 5s --health-retries 20
+      redis:
+        image: redis:7-alpine
+        ports: ['6391:6379']
+        options: --health-cmd "redis-cli ping" --health-interval 3s --health-timeout 3s --health-retries 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci
+      # Same settings as local development, without tracing (no Jaeger in CI).
+      - run: grep -v OTEL_EXPORTER .env.example > .env
+      - run: npm run lint
+      - run: npm run typecheck
+      - run: npm run format:check
+      - name: Create the service databases
+        run: |
+          for db in orders inventory payments orders_test inventory_test payments_test; do
+            PGPASSWORD=relay psql -h localhost -p 5445 -U relay -d relay -c "create database $db"
+          done
+      - run: npm run db:migrate
+      - name: Unit and integration tests (real PostgreSQL, RabbitMQ and Redis)
+        run: npm test
+      - run: npx playwright install --with-deps chromium
+      - name: End-to-end tests on the monitor
+        run: npm run test:e2e
+        env:
+          CI: 'true'

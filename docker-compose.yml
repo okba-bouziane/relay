@@ -1,0 +1,51 @@
+name: relay
+
+# Infrastructure for local development. Each service owns its own database (orders, inventory,
+# payments) inside one PostgreSQL server: they never read each other's tables.
+services:
+  postgres:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_USER: relay
+      POSTGRES_PASSWORD: relay
+      POSTGRES_DB: relay
+    ports: ['5445:5432']
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./docker/init-databases.sql:/docker-entrypoint-initdb.d/init-databases.sql:ro
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U relay']
+      interval: 3s
+      timeout: 3s
+      retries: 20
+
+  rabbitmq:
+    image: rabbitmq:4-management-alpine
+    ports:
+      - '5673:5672' # AMQP
+      - '15673:15672' # management UI (guest / guest)
+    healthcheck:
+      test: ['CMD', 'rabbitmq-diagnostics', '-q', 'ping']
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  redis:
+    image: redis:7-alpine
+    ports: ['6391:6379']
+    healthcheck:
+      test: ['CMD', 'redis-cli', 'ping']
+      interval: 3s
+      timeout: 3s
+      retries: 20
+
+  jaeger:
+    image: jaegertracing/jaeger:2.11.0
+    ports:
+      - '16687:16686' # UI
+      - '4319:4318' # OTLP over HTTP
+    environment:
+      COLLECTOR_OTLP_ENABLED: 'true'
+
+volumes:
+  pgdata:

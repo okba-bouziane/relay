@@ -1,0 +1,13 @@
+{
+  "name": "@relay/payments",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch --env-file-if-exists=../../.env --import @relay/common/telemetry src/main.ts",
+    "start": "tsx --env-file-if-exists=../../.env --import @relay/common/telemetry src/main.ts"
+  },
+  "dependencies": {
+    "@relay/common": "*"
+  }
+}
