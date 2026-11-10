@@ -1,14 +1,14 @@
 .app {
-  max-width: 1440px;
+  max-width: 1400px;
   margin: 0 auto;
-  padding: 18px 22px 40px;
+  padding: 24px 32px 48px;
 }
 
 .top {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 18px;
+  margin-bottom: 24px;
 }
 
 .brand {
@@ -23,8 +23,8 @@
 }
 
 .brand strong {
-  font-size: 20px;
-  letter-spacing: -0.02em;
+  font-size: 18px;
+  font-weight: 600;
 }
 
 .small {
@@ -38,41 +38,35 @@
 }
 
 .live {
-  font-family: var(--mono);
-  font-size: 12px;
-  padding: 4px 10px;
-  border-radius: 999px;
-  border: 1px solid var(--line);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
   color: var(--muted);
 }
 
 .live.on {
-  color: var(--ok);
-  border-color: color-mix(in srgb, var(--ok) 40%, transparent);
+  color: var(--text);
 }
 
 .live.on::before {
-  content: '●';
-  margin-right: 6px;
-  animation: blink 1.4s infinite;
-}
-
-@keyframes blink {
-  50% {
-    opacity: 0.25;
-  }
+  content: '';
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--ok);
 }
 
 .grid {
   display: grid;
   grid-template-columns: 360px 1fr;
-  gap: 16px;
+  gap: 20px;
   align-items: start;
 }
 
 .col {
   display: grid;
-  gap: 16px;
+  gap: 20px;
 }
 
 .scenarios {
@@ -99,8 +93,8 @@
 .custom {
   display: grid;
   gap: 8px;
-  padding-top: 12px;
-  border-top: 1px dashed var(--line);
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
 }
 
 .row {
@@ -109,10 +103,14 @@
   gap: 8px;
 }
 
+.btn.primary:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--accent) 88%, #000);
+}
+
 .btn.primary {
-  background: var(--orders);
-  border-color: var(--orders);
-  color: #04110f;
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
 }
 
 .error {
@@ -127,13 +125,14 @@
 
 .queues th {
   text-align: left;
-  font: 500 11px var(--mono);
+  font-size: 12px;
+  font-weight: 500;
   color: var(--muted);
   padding-bottom: 6px;
 }
 
 .queues td {
-  padding: 7px 0;
+  padding: 9px 0;
   border-top: 1px solid var(--line);
 }
 
@@ -147,7 +146,6 @@
 
 .dot.up {
   background: var(--ok);
-  box-shadow: 0 0 8px var(--ok);
 }
 
 .dot.down {
@@ -155,20 +153,20 @@
 }
 
 .svc {
-  font-family: var(--mono);
-  font-weight: 600;
+  font-weight: 500;
+  text-transform: capitalize;
 }
 
 .svc.orders {
-  color: var(--orders);
+  color: var(--text);
 }
 
 .svc.inventory {
-  color: var(--inventory);
+  color: var(--text);
 }
 
 .svc.payments {
-  color: var(--payments);
+  color: var(--text);
 }
 
 .btn.small {
@@ -178,12 +176,11 @@
 }
 
 .btn.danger {
-  border-color: var(--bad);
   color: var(--bad);
 }
 
 .note {
-  font-size: 12px;
+  font-size: 13px;
   color: var(--ok);
 }
 
@@ -194,8 +191,13 @@
   font-size: 13px;
 }
 
+.links a:hover {
+  text-decoration: underline;
+}
+
 .links a {
-  color: var(--payments);
+  color: var(--accent);
+  text-decoration: none;
 }
 
 .toggle {
@@ -208,7 +210,7 @@
 
 .toggle input {
   margin-top: 4px;
-  accent-color: var(--bad);
+  accent-color: var(--accent);
 }
 
 .toggle span {
@@ -230,7 +232,7 @@
 }
 
 .slider input {
-  accent-color: var(--inventory);
+  accent-color: var(--accent);
 }
 
 .saga.empty {
@@ -247,7 +249,8 @@
 }
 
 .saga-head h1 {
-  font-size: 26px;
+  font-size: 22px;
+  font-weight: 600;
 }
 
 .saga-head p {
@@ -262,16 +265,17 @@
 }
 
 .saga-meta a {
-  color: var(--payments);
+  color: var(--accent);
+  text-decoration: none;
 }
 
 .status {
-  font: 600 12px var(--mono);
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  padding: 3px 10px;
-  border-radius: 999px;
-  border: 1px solid currentColor;
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: capitalize;
+  padding: 2px 8px;
+  border-radius: 6px;
+  background: color-mix(in srgb, currentColor 11%, transparent);
 }
 
 .status.confirmed {
@@ -297,12 +301,25 @@
   padding-bottom: 6px;
 }
 
+.lane-name.orders {
+  border-left-color: var(--orders);
+}
+
+.lane-name.inventory {
+  border-left-color: var(--inventory);
+}
+
+.lane-name.payments {
+  border-left-color: var(--payments);
+}
+
 .lane-name {
   display: flex;
   align-items: center;
   font-size: 13px;
-  padding-left: 4px;
-  border-left: 3px solid currentColor;
+  padding-left: 10px;
+  border-left: 3px solid var(--line);
+  color: var(--text);
 }
 
 .cell {
@@ -316,7 +333,7 @@
   top: 50%;
   left: 0;
   right: 0;
-  border-top: 1px dashed var(--line);
+  border-top: 1px solid var(--line);
 }
 
 .step {
@@ -324,11 +341,12 @@
   display: grid;
   gap: 2px;
   padding: 8px 10px;
-  border-radius: 10px;
-  background: var(--panel-2);
+  border-radius: 8px;
+  background: var(--panel);
   border: 1px solid var(--line);
   border-left: 3px solid var(--ok);
-  animation: pop 0.3s ease-out;
+  box-shadow: var(--shadow);
+  animation: pop 0.35s ease-out;
 }
 
 .step.failed {
@@ -344,12 +362,12 @@
 }
 
 .step-name {
-  font-weight: 600;
+  font-weight: 500;
   font-size: 13px;
 }
 
 .step-detail {
-  font: 12px var(--mono);
+  font-size: 12px;
   color: var(--muted);
   overflow: hidden;
   text-overflow: ellipsis;
@@ -364,10 +382,10 @@
 }
 
 .reason {
-  margin: 14px 0 0;
+  margin: 16px 0 0;
   padding: 10px 12px;
-  border-radius: 10px;
-  background: color-mix(in srgb, var(--bad) 10%, transparent);
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--bad) 8%, transparent);
   color: var(--bad);
   font-size: 13px;
 }
@@ -384,8 +402,8 @@
 
 .counts {
   float: right;
-  letter-spacing: 0;
-  text-transform: none;
+  font-weight: 400;
+  color: var(--muted);
 }
 
 .order {
@@ -394,12 +412,13 @@
   grid-template-columns: 110px 1fr auto 80px;
   gap: 12px;
   align-items: center;
-  padding: 8px 10px;
-  border-radius: 10px;
+  padding: 9px 10px;
+  border-radius: 8px;
   border: 1px solid transparent;
   background: none;
   cursor: pointer;
   text-align: left;
+  transition: background-color 0.15s ease;
 }
 
 .order:hover {
@@ -407,8 +426,8 @@
 }
 
 .order.on {
-  border-color: var(--line);
-  background: var(--panel-2);
+  background: color-mix(in srgb, var(--accent) 7%, transparent);
+  border-color: color-mix(in srgb, var(--accent) 22%, transparent);
 }
 
 .order .status {

@@ -12,7 +12,7 @@ export default function App() {
   const system = useSystem()
   const now = useNow()
   const [selected, setSelected] = useState<string | null>(null)
-  const [theme, setTheme] = useState(document.documentElement.dataset.theme ?? 'dark')
+  const [theme, setTheme] = useState(document.documentElement.dataset.theme ?? 'light')
 
   const timeline = useMemo(() => groupByOrder(entries), [entries])
   const list = orders.data ?? []
@@ -35,10 +35,15 @@ export default function App() {
       <header className="top">
         <div className="brand">
           <svg viewBox="0 0 32 32" width="30" height="30" aria-hidden="true">
-            <rect width="32" height="32" rx="9" fill="var(--panel-2)" stroke="var(--line)" />
-            <circle cx="8" cy="16" r="3.5" fill="var(--orders)" />
-            <circle cx="16" cy="16" r="3.5" fill="var(--inventory)" />
-            <circle cx="24" cy="16" r="3.5" fill="var(--payments)" />
+            <rect width="32" height="32" rx="8" fill="var(--accent)" />
+            <path
+              d="M9 11h9a4 4 0 0 1 0 8h-1l5 4M9 11v12"
+              fill="none"
+              stroke="#fff"
+              strokeWidth="2.4"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
           </svg>
           <div>
             <strong>Relay</strong>
@@ -50,7 +55,35 @@ export default function App() {
             {connected ? 'live' : 'reconnecting'}
           </span>
           <button className="btn" onClick={toggleTheme} aria-label="Toggle theme">
-            {theme === 'dark' ? '☀' : '☾'}
+            {theme === 'dark' ? (
+              <svg
+                viewBox="0 0 24 24"
+                width="16"
+                height="16"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.8"
+                strokeLinecap="round"
+                aria-hidden="true"
+              >
+                <circle cx="12" cy="12" r="4" />
+                <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" />
+              </svg>
+            ) : (
+              <svg
+                viewBox="0 0 24 24"
+                width="16"
+                height="16"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.8"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                aria-hidden="true"
+              >
+                <path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z" />
+              </svg>
+            )}
           </button>
         </div>
       </header>

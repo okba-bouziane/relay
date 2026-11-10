@@ -1,39 +1,41 @@
-/* Relay: a control room. Dark by default; the light theme is a blueprint. */
+/* Relay monitor: a plain, quiet product UI. Light by default. */
 :root,
-:root[data-theme='dark'] {
-  --font: 'Space Grotesk', system-ui, sans-serif;
-  --mono: 'IBM Plex Mono', ui-monospace, monospace;
-  --bg: #070b14;
-  --panel: #0d1422;
-  --panel-2: #131c2e;
-  --line: #1e2a40;
-  --text: #e6edf7;
-  --muted: #7d8aa3;
-  --orders: #2dd4bf;
-  --inventory: #fbbf24;
-  --payments: #60a5fa;
-  --ok: #34d399;
-  --bad: #f87171;
-  --comp: #c084fc;
-  --glow: 0 0 0 1px var(--line), 0 18px 40px -24px rgb(0 0 0 / 80%);
-  color-scheme: dark;
+:root[data-theme='light'] {
+  --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --mono: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  --bg: #f6f7f9;
+  --panel: #ffffff;
+  --panel-2: #f3f4f6;
+  --line: #e5e7eb;
+  --text: #111827;
+  --muted: #6b7280;
+  --accent: #2563eb;
+  --orders: #2563eb;
+  --inventory: #b45309;
+  --payments: #7c3aed;
+  --ok: #15803d;
+  --bad: #dc2626;
+  --comp: #7c3aed;
+  --shadow: 0 1px 2px rgb(16 24 40 / 5%), 0 1px 3px rgb(16 24 40 / 6%);
+  color-scheme: light;
 }
 
-:root[data-theme='light'] {
-  --bg: #eef3fb;
-  --panel: #ffffff;
-  --panel-2: #f3f6fc;
-  --line: #d6dfee;
-  --text: #0b1220;
-  --muted: #5d6b85;
-  --orders: #0d9488;
-  --inventory: #b45309;
-  --payments: #2563eb;
-  --ok: #059669;
-  --bad: #dc2626;
-  --comp: #9333ea;
-  --glow: 0 0 0 1px var(--line), 0 14px 30px -22px rgb(11 18 32 / 35%);
-  color-scheme: light;
+:root[data-theme='dark'] {
+  --bg: #111315;
+  --panel: #191b1e;
+  --panel-2: #222529;
+  --line: #2c3035;
+  --text: #ececec;
+  --muted: #9a9fa6;
+  --accent: #6b9cff;
+  --orders: #6b9cff;
+  --inventory: #e0a64a;
+  --payments: #a98bf5;
+  --ok: #4ec27a;
+  --bad: #f0716b;
+  --comp: #a98bf5;
+  --shadow: 0 1px 2px rgb(0 0 0 / 30%);
+  color-scheme: dark;
 }
 
 * {
@@ -42,23 +44,13 @@
 
 body {
   margin: 0;
-  font: 14px/1.5 var(--font);
-  background:
-    linear-gradient(var(--line) 1px, transparent 1px) 0 0 / 32px 32px,
-    linear-gradient(90deg, var(--line) 1px, transparent 1px) 0 0 / 32px 32px,
-    var(--bg);
-  background-blend-mode: normal;
+  font: 14px/1.55 var(--font);
+  background: var(--bg);
   color: var(--text);
   -webkit-font-smoothing: antialiased;
-}
-
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background: radial-gradient(ellipse at 50% 0%, transparent 0%, var(--bg) 70%);
-  pointer-events: none;
-  z-index: -1;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
 }
 
 h1,
@@ -76,12 +68,12 @@ select {
 }
 
 :focus-visible {
-  outline: 2px solid var(--orders);
+  outline: 2px solid var(--accent);
   outline-offset: 2px;
 }
 
 .mono {
-  font-family: var(--mono);
+  font-variant-numeric: tabular-nums;
 }
 
 .muted {
@@ -89,21 +81,17 @@ select {
 }
 
 .panel {
-  background: color-mix(in srgb, var(--panel) 92%, transparent);
-  border-radius: 14px;
-  box-shadow: var(--glow);
-  padding: 16px;
-  backdrop-filter: blur(6px);
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  padding: 18px;
 }
 
 .panel h2 {
-  font-size: 12px;
-  text-transform: uppercase;
-  letter-spacing: 0.14em;
-  color: var(--muted);
-  margin-bottom: 12px;
-  font-family: var(--mono);
-  font-weight: 500;
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 14px;
 }
 
 .btn {
@@ -113,22 +101,23 @@ select {
   gap: 8px;
   height: 36px;
   padding: 0 14px;
-  border-radius: 10px;
+  border-radius: 8px;
   border: 1px solid var(--line);
-  background: var(--panel-2);
-  font-weight: 600;
+  background: var(--panel);
+  font-weight: 500;
   cursor: pointer;
   transition:
+    background-color 0.15s ease,
     border-color 0.15s ease,
-    transform 0.1s ease;
+    box-shadow 0.15s ease;
 }
 
 .btn:hover:not(:disabled) {
-  border-color: var(--orders);
+  background: var(--panel-2);
 }
 
-.btn:active {
-  transform: translateY(1px);
+.btn:active:not(:disabled) {
+  background: var(--line);
 }
 
 .btn:disabled {
@@ -140,9 +129,18 @@ select {
   width: 100%;
   height: 36px;
   padding: 0 10px;
-  border-radius: 10px;
+  border-radius: 8px;
   border: 1px solid var(--line);
-  background: var(--panel-2);
+  background: var(--panel);
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 18%, transparent);
 }
 
 .sr-only {

@@ -21,7 +21,7 @@ export function OrderList({
       <h2>
         Orders{' '}
         <span className="counts mono">
-          ✓ {counts.confirmed} · ✕ {counts.cancelled} · … {counts.pending}
+          {counts.confirmed} confirmed · {counts.cancelled} cancelled · {counts.pending} pending
         </span>
       </h2>
       {orders.length === 0 && <p className="muted">No orders yet.</p>}

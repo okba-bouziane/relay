@@ -4,11 +4,11 @@
 
 It shows the patterns that make this reliable in production: the **transactional outbox**, an **idempotent inbox**, retries with backoff and a **dead-letter queue**, Redis for idempotency keys and a live timeline, and **OpenTelemetry** traces that follow one order across all three services in Jaeger. A React monitor lets you launch scenarios, break the card gateway on purpose and replay dead-lettered messages.
 
-![Saga monitor, dark theme](docs/screenshots/01-monitor-dark.png)
+![Saga monitor](docs/screenshots/01-monitor-light.png)
 
-| Light theme                                                    | A message in the dead-letter queue                  |
-| -------------------------------------------------------------- | --------------------------------------------------- |
-| ![Monitor, light theme](docs/screenshots/02-monitor-light.png) | ![Stuck order](docs/screenshots/03-dead-letter.png) |
+| Dark theme                                                   | A message in the dead-letter queue                  |
+| ------------------------------------------------------------ | --------------------------------------------------- |
+| ![Monitor, dark theme](docs/screenshots/02-monitor-dark.png) | ![Stuck order](docs/screenshots/03-dead-letter.png) |
 
 **One order, one trace, three services (Jaeger):**
 
